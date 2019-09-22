@@ -35,25 +35,30 @@ services:
     links:
       - database
     volumes:
-      - ./:/var/www
+      - ./website:/var/www
+      - ./server:/usr/local/server
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-      - C:/xampp/htdocs/server:/usr/local/server
     networks:
       - app-network
 
   #Nginx Service
   webserver:
-    image: nginx:alpine
+    image: jwilder/nginx-proxy
     container_name: webserver
     restart: unless-stopped
     tty: true
     ports:
-      - "8080:8080"
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./:/var/www
+      - ./website:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock
     networks:
       - app-network
+    depends_on:
+      - website
 
   #MySQL Service
   database:
@@ -71,7 +76,7 @@ services:
     volumes:
       - dbdata:/var/lib/mysql/
       - ./mysql/my.cnf:/etc/mysql/my.cnf
-      - ./database/data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./database/db.sql:/docker-entrypoint-initdb.d/db.sql
     networks:
       - app-network
 
