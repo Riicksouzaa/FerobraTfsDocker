@@ -1,0 +1,6 @@
+[submodule "website"]
+	path = website
+	url = git@github.com:Riicksouzaa/TheRealGesiorFerobra.git
+[submodule "server"]
+	path = server
+	url = https://github.com/otland/forgottenserver.git
