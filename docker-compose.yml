@@ -6,12 +6,12 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: tfs
-    container_name: tfs
+    image: server
+    container_name: server
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: tfs
+      SERVICE_NAME: server
       SERVICE_TAGS: dev
     working_dir: /srv
     links:
@@ -71,8 +71,8 @@ services:
     environment:
       MYSQL_DATABASE: premium-gesior
       MYSQL_ROOT_PASSWORD: gesior
-      SERVICE_TAGS: dev
       SERVICE_NAME: database
+      SERVICE_TAGS: dev
     volumes:
       - dbdata:/var/lib/mysql/
       - ./mysql/my.cnf:/etc/mysql/my.cnf
